@@ -1,0 +1,5 @@
+module.exports = {
+    address1: "0x9cECECC1bDaE45c3FEeaAE9d0b1417ee3A087916",
+    address2: "0xCDeB23C5BC2a1e5517C5c54708C1e9571aEE15e3",
+    address3: "0x0b0dFd1979ABC400eE78994C016a4f97A60eC32f"
+};
