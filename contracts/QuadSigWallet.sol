@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract MultiSigWallet {
+contract QuadSigWallet {
     address private owner = msg.sender;
     mapping(address => bool) private members;
     uint256 private transactionIndex;
@@ -18,11 +18,6 @@ contract MultiSigWallet {
 
     mapping(uint256 => Transaction) private transactions;
     uint256[] private pendingTransactions;
-
-    modifier isOwner() {
-        require(msg.sender == owner);
-        _;
-    }
 
     modifier isMember() {
         require(msg.sender == owner || members[msg.sender]);
@@ -71,7 +66,7 @@ contract MultiSigWallet {
         transaction.from = msg.sender;
         transaction.to = to;
         transaction.signatureCount = 0;
-        
+
         pendingTransactions.push(transactionId);
 
         emit TransactionCreated(value, msg.sender, to, transactionId);

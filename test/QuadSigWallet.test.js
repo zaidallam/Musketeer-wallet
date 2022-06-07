@@ -1,12 +1,12 @@
-const MultiSigWallet = artifacts.require("./MultiSigWallet.sol");
+const QuadSigWallet = artifacts.require("./QuadSigWallet.sol");
 
-contract('MultiSigWallet', (accounts) => {
+contract('QuadSigWallet', (accounts) => {
     const ownerAddress = accounts[0];
     const firstMemberAddress = accounts[1];
 
     it('fail to delete transaction on an invalid transaction ID', async () => {
         try {
-            const instance = await MultiSigWallet.deployed()
+            const instance = await QuadSigWallet.deployed()
             await instance.deleteTransaction(1);
             assert.fail();
         } catch (e) {
@@ -16,7 +16,7 @@ contract('MultiSigWallet', (accounts) => {
 
     it('fail if the creator of a pending transaction tries to sign it', async () => {
         try {
-            const instance = await MultiSigWallet.deployed();
+            const instance = await QuadSigWallet.deployed();
             await instance.sendTransaction({ from: ownerAddress, value: 1000 });
             await instance.withdraw(100);
             await instance.signTransaction(0);
@@ -28,7 +28,7 @@ contract('MultiSigWallet', (accounts) => {
 
     it('fail if the signer of a pending transaction tries to double sign', async () => {
         try {
-            const instance = await MultiSigWallet.deployed();
+            const instance = await QuadSigWallet.deployed();
             await instance.sendTransaction({ from: ownerAddress, value: 1000 });
             await instance.addOwner(firstMemberAddress);
             await instance.withdraw(100, { from: firstMemberAddress });
