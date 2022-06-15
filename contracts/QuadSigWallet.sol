@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract QuadSigWallet {
-    address private owner = msg.sender;
+    address private owner;
     mapping(address => bool) private members;
     uint256 private transactionIndex;
 
@@ -16,7 +16,7 @@ contract QuadSigWallet {
         mapping(address => bool) signatures;
     }
 
-    mapping(uint256 => Transaction) private transactions;
+    mapping(uint256 => Transaction) public transactions;
     uint256[] private pendingTransactions;
 
     modifier isMember() {
@@ -25,10 +25,12 @@ contract QuadSigWallet {
     }
 
     constructor(
+        address _owner,
         address member1,
         address member2,
         address member3
     ) {
+        owner = _owner;
         members[member1] = true;
         members[member2] = true;
         members[member3] = true;
@@ -53,11 +55,7 @@ contract QuadSigWallet {
         emit Deposit(msg.value, msg.sender);
     }
 
-    function withdraw(uint256 value) public {
-        transfer(msg.sender, value);
-    }
-
-    function transfer(address to, uint256 value) public isMember {
+    function initiateTransaction(address to, uint256 value) public isMember {
         require(address(this).balance >= value);
         uint256 transactionId = transactionIndex++;
 
@@ -72,7 +70,7 @@ contract QuadSigWallet {
         emit TransactionCreated(value, msg.sender, to, transactionId);
     }
 
-    function getPendingTransactions()
+    function getPendingTransactionIds()
         public
         view
         isMember
