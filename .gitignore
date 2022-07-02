@@ -29,3 +29,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# deployment private mnemonic
+secrets.json
